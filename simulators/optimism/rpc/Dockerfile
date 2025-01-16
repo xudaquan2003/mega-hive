@@ -1,5 +1,5 @@
 # This simulation runs JSON-RPC API tests.
-FROM golang:1.19.9-alpine3.16 as builder
+FROM golang:1.19.9-alpine3.16 AS builder
 RUN apk add --update gcc musl-dev linux-headers git
 
 # Build the simulator executable, from hive repo root.
