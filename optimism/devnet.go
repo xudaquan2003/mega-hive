@@ -377,7 +377,7 @@ func (d *Devnet) RunScript(name string, command ...string) *hivesim.ExecInfo {
 	return execInfo
 }
 
-func (d *Devnet) InitChain(maxSeqDrift uint64, seqWindowSize uint64, chanTimeout uint64, additionalAlloc core.GenesisAlloc, l1BlockTime uint64, forkName string) {
+func (d *Devnet) InitChain(maxSeqDrift uint64, seqWindowSize uint64, chanTimeout uint64, additionalAlloc core.GenesisAlloc, l1BlockTime uint64, forkName string, files map[string]string) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	d.T.Log("creating hardhat deploy config")
@@ -524,7 +524,7 @@ var ForkConfigsByName = map[string]ForkConfig{
 	"Regolith": {EnableRegolith: true},
 }
 
-var AllOptimismForkConfigs = []string{"Bedrock", "Regolith"}
+var AllOptimismForkConfigs = []string{"Bedrock"}
 
 type SequencerDevnetParams struct {
 	MaxSeqDrift             uint64
@@ -532,10 +532,11 @@ type SequencerDevnetParams struct {
 	ChanTimeout             uint64
 	AdditionalGenesisAllocs core.GenesisAlloc
 	Fork                    string
+	Files                   map[string]string
 }
 
 func StartSequencerDevnet(ctx context.Context, d *Devnet, params *SequencerDevnetParams) error {
-	d.InitChain(params.MaxSeqDrift, params.SeqWindowSize, params.ChanTimeout, params.AdditionalGenesisAllocs, 6, params.Fork)
+	d.InitChain(params.MaxSeqDrift, params.SeqWindowSize, params.ChanTimeout, params.AdditionalGenesisAllocs, 6, params.Fork, params.Files)
 	d.T.Log("\n\n---------------- AddEth1 ----------------\n\n")
 	d.AddEth1()
 	d.WaitUpEth1(0, time.Second*10)

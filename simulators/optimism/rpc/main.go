@@ -13,6 +13,12 @@ import (
 	"github.com/ethereum/hive/optimism"
 )
 
+var files = map[string]string{
+	"/genesis-l1.json":      "./init/genesis-l1.json",
+	"/genesis-2151908.json": "./init/genesis-2151908.json",
+	"/rollup-2151908.json":  "./init/rollup-2151908.json",
+}
+
 type testSpec struct {
 	Name  string
 	About string
@@ -120,7 +126,8 @@ func runAllTests(t *hivesim.T, forkName string) {
 				},
 			},
 		},
-		Fork: forkName,
+		Fork:  forkName,
+		Files: files,
 	}))
 
 	// c := d.GetOpL2Engine(0).Client
